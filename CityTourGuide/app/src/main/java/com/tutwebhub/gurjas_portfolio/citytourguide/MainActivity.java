@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,21 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(cityTourViewAdapter);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        CityTourView cityTourView = cityTourViewList.get(position);
+                        Toast.makeText(getApplicationContext(), cityTourView.getCityName() + " is selected", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                })
+        );
 
         // use this function to add data into our list
         addRequiredData();
